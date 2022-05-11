@@ -1,15 +1,30 @@
+import time
+
 # 物の個数
-n = 6
+n = 20
 # 要領
-capacity = 65
+capacity = 55
 #物の重さ、価値
-size = [10, 12, 7, 9, 21, 16]
-price = [120, 130, 80, 100, 250, 185]
+#task(3)
+#size = [3,6,5,4,8,5,3,4]
+#price = [7,12,9,7,13,8,4,5]
+
+#task(4)
+size = [3,6,5,4,8,5,3,4,3,5,6,4,8,7,11,8,14,6,12,4]
+price = [7,12,9,7,13,8,4,5,3,10,7,5,6,14,5,9,6,12,5,9]
+
 #最高の重さと価格と最適な組み合わせを記録する
 max_size = -1
 max_price = -1
 combination = []
-# iには2**nまでの値が入る。今回の場合は0～64通り
+
+#計算時間の測定 start
+start_time = time.perf_counter()
+
+#計算回数カウント
+count = 0
+
+# iには2**nまでの値が入る。
 for i in range(2 ** n):
     # 変数の初期化
     tmp_size = 0
@@ -23,6 +38,7 @@ for i in range(2 ** n):
         tmp_combination.append(is_put)
         tmp_size += is_put * size[j]
         tmp_price += is_put * price[j]
+        count += 1
         #print(tmp_combination)
         # capa を越えたらフラグを立てて break
         if tmp_size > capacity:
@@ -33,7 +49,15 @@ for i in range(2 ** n):
         max_price = tmp_price
         max_size = tmp_size
         combination = tmp_combination
+
+#計算時間の測定 stop
+end_time = time.perf_counter()
+#処理にかかった時間
+elapsed_time = end_time - start_time
+
 print("合計が最大になる組み合わせ")
 print(combination)
 print("合計価格: ", max_price)
 print("合計サイズ: ", max_size)
+print("計算時間: ",  elapsed_time)
+print("総当たり回数:", count)
